@@ -20,3 +20,8 @@ __pycache__/
 
 # Temporary files
 *~
+
+# Calibration test executables
+tests/radius/line_10m
+tests/tread/spin_10turns
+tests/wheel_check/wheel_individual_test
