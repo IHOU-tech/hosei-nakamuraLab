@@ -22,14 +22,12 @@
 │
 ├── calibration/
 │
-├── docs/
-│
 ├── params/
 │   ├── icart_original.param
 │   ├── icart_calibration.param
 │   └── icart_final.param
 │
-├── ros2/
+├── ros2/icart_ypspur_ros2_bridge.yaml
 │
 └── tests/
     ├── radius/
