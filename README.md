@@ -48,53 +48,92 @@ YP-Spurで使用するi-Cart-miniのパラメータファイルを保存する�
 - icart_final.param
   - キャリブレーション後に使用するパラメータ
 ### `tests/`
-車輪半径，トレッド，左右車輪の対応関係などを確認するためのテストプログラムを保存する。
-radius/
+
+i-Cart-miniの走行パラメータを確認・キャリブレーションするためのテストプログラムを保存する。
+
+#### `radius/`
+
 車輪半径（RADIUS）のキャリブレーション用。
-現在は，ロボットを10 m直進させるテストプログラムを保存している。
-line 10 0 0
 
-### `tread/`
-トレッド（TREAD）のキャリブレーション用。
-原地旋回を10回以上行い，最終的な姿勢誤差を確認する予定。
-wheel_check/
-左右の車輪とYP-Spur上の w_l，w_r の対応関係を確認するためのプログラムを保存する。
-片方の車輪速度を0に設定し，もう片方のみを回転させることで確認する。
-analysis/
-オドメトリデータの解析用ファイルを保存する。
-- odom_xy.csv
-  - オドメトリから取得したXY座標
-- plot_odom.py
-  - 軌跡描画用Pythonスクリプト
-- figures/
-  - 走行軌跡などの解析結果画像
-calibration/
-RADIUS，TREADなどのキャリブレーション結果を記録する。
-ros2/
-ROS 2関連の設定ファイル，launch方法，topic情報などを保存する。
-docs/
-ハードウェア構成，セットアップ方法，実験手順などのドキュメントを保存する。
-キャリブレーション
-タイヤ空気圧
-左右タイヤの空気圧を同一にした状態でキャリブレーションを行う。
-現在の設定：
-200 kPa
+`line_10m.c` では，ロボットを10 m直進させ，指令距離と実際の走行距離を比較する。
 
-### `RADIUS`
-車輪半径のキャリブレーションでは，少なくとも10 m直進させ，指令距離と実際の走行距離を比較する。
-使用するテスト：
+```text
 tests/radius/line_10m.c
+```
 
-### `TREAD`
-トレッドのキャリブレーションでは，ロボットを原地で10回以上旋回させ，旋回後の姿勢誤差を確認する。
-左右車輪の確認
-w_l と w_r の片方を0に設定し，それぞれ個別に指令を与える。
-これにより，指定した側の車輪のみが回転することを確認する。
-注意事項
-ROS bagのデータはファイルサイズが大きくなるため，本リポジトリでは管理しない。
-以下のディレクトリは .gitignore によりGitの管理対象外としている。
-rosbag/
-rosbag2_*/
-build/
-install/
-log/   
+主な内容：
+
+- 初期位置を `(0, 0, 0)` に設定
+- 速度 `0.2 m/s`
+- 加速度 `0.5 m/s²`
+- 10 m直進
+- 走行中の `x, y, theta` を表示
+- 10 m地点付近で停止
+
+コンパイル例：
+
+```bash
+cd ~/デスクトップ/i-Cart/tests/radius
+gcc line_10m.c -o line_10m -lypspur
+```
+
+#### `tread/`
+
+トレッド（TREAD）のキャリブレーション用。
+
+`spin_10turns.c` では，ロボットを原地で10回転させた後，実際の向きを確認し，Enterキー入力後に `spin 0` を実行する。
+
+```text
+tests/tread/spin_10turns.c
+```
+
+主な内容：
+
+- 初期姿勢を `0 rad` に設定
+- 10回転（`20π rad`）の原地旋回
+- 旋回中の角度を表示
+- 10回転後に実際の姿勢を確認
+- Enterキー入力後に `spin 0` を実行
+
+コンパイル例：
+
+```bash
+cd ~/デスクトップ/i-Cart/tests/tread
+gcc spin_10turns.c -o spin_10turns -lypspur -lm
+```
+
+#### `wheel_check/`
+
+左右車輪とYP-Spur上の `w_r`，`w_l` の対応関係を確認するためのテストプログラム。
+
+`wheel_individual_test.c` では，一方の車輪速度を0に設定し，もう一方の車輪のみを回転させる。
+
+```text
+tests/wheel_check/wheel_individual_test.c
+```
+
+確認内容：
+
+- `w_r = 2.0`, `w_l = 0.0`
+  - 右車輪のみが回転することを確認
+- `w_r = 0.0`, `w_l = 2.0`
+  - 左車輪のみが回転することを確認
+
+コンパイル例：
+
+```bash
+cd ~/デスクトップ/i-Cart/tests/wheel_check
+gcc wheel_individual_test.c -o wheel_individual_test -lypspur
+```
+
+### テストプログラムの実行ファイルについて
+
+コンパイルによって生成される以下の実行ファイルはGit管理対象外としている。
+
+```text
+tests/radius/line_10m
+tests/tread/spin_10turns
+tests/wheel_check/wheel_individual_test
+```
+
+これらは `.gitignore` に登録している。
