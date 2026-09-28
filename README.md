@@ -22,19 +22,26 @@
 │
 ├── calibration/
 │
+├── docs/
+│
 ├── params/
 │   ├── icart_original.param
 │   ├── icart_calibration.param
 │   └── icart_final.param
 │
-├── ros2/icart_ypspur_ros2_bridge.yaml
+├── ros2/
+│   ├── icart_ypspur_ros2_bridge.yaml
+│   └── teleop/
+│       ├── ps3_teleop.py
+│       └── README.md
 │
 └── tests/
     ├── radius/
     │   └── line_10m.c
     ├── tread/
+    │   └── spin_10turns.c
     └── wheel_check/
-
+        └── wheel_individual_test.c
 ```
 
 ### `params/`
@@ -298,3 +305,124 @@ GAIN_KI 50
 # 4. 振動・オーバーシュートが出たらKiを下げる
 
 ```
+### `ros2/`
+
+i-Cart-miniで使用するROS 2関連の設定ファイルおよび操作プログラムを保存する。
+
+#### `icart_ypspur_ros2_bridge.yaml`
+
+i-Cart-miniとROS 2間の通信には，以下の `ypspur_ros2_bridge` を使用する。
+
+- Repository: `dlab-ut/ypspur_ros2_bridge`
+- GitHub: https://github.com/dlab-ut/ypspur_ros2_bridge
+
+本リポジトリ内では，i-Cart-mini用に使用している設定ファイルを保存している。
+
+```text
+ros2/icart_ypspur_ros2_bridge.yaml
+```
+
+主なROS 2 Topic：
+
+```text
+/cmd_vel
+/odom
+/joy
+```
+
+#### `teleop/`
+
+PS3コントローラからi-Cart-miniを操作するためのROS 2 teleopプログラムを保存する。
+
+```text
+ros2/teleop/ps3_teleop.py
+```
+
+このノードは `/joy` を購読し，操作内容に応じて `/cmd_vel` をPublishする。
+
+制御の流れ：
+
+```text
+PS3 Controller
+    ↓
+joy_node
+    ↓
+/joy
+    ↓
+ps3_teleop.py
+    ↓
+/cmd_vel
+    ↓
+ypspur_ros2_bridge
+    ↓
+YP-Spur
+    ↓
+TF-2MD3
+    ↓
+i-Cart-mini
+```
+
+主な操作：
+
+- `R1`
+  - デッドマンボタン
+  - R1を押している間のみロボット操作を有効化
+
+- `R2`
+  - 前進
+
+- `L2`
+  - 後退
+
+- 左スティック左右
+  - 左右旋回
+
+- `□`
+  - 左に90°旋回
+
+- `○`
+  - 右に90°旋回
+
+- `△`
+  - 前方へ1 m移動
+
+- `×`
+  - 後方へ1 m移動
+
+PS3コントローラの入力割り当て：
+
+```text
+axes[0]    : 左スティック左右
+axes[2]    : L2
+axes[5]    : R2
+
+buttons[0] : ×
+buttons[1] : ○
+buttons[2] : □
+buttons[3] : △
+buttons[5] : R1
+```
+
+L2 / R2は以下の値として取得される。
+
+```text
+未入力     : +1
+最大入力   : -1
+```
+
+プログラム内では，0～1の値に変換して使用する。
+
+```python
+trigger = (1.0 - axis) / 2.0
+```
+
+また，`/odom` を使用して以下の自動動作を行う。
+
+- 前進 1 m
+- 後退 1 m
+- 左旋回 90°
+- 右旋回 90°
+
+R1を離した場合，自動動作は即座にキャンセルされ，停止指令を送信する。
+
+
