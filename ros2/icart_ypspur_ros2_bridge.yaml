@@ -1,0 +1,20 @@
+/**:
+  ros__parameters:
+    serial_port: "/dev/ttyACM0"
+    spur_params_file: "/home/walrus/デスクトップ/i-Cart/icart_new.param"
+    spur_args: ""
+
+    frame_id: "odom"
+    child_frame_id: "base_link"
+
+    left_wheel_joint_name: "left_wheel_joint"
+    right_wheel_joint_name: "right_wheel_joint"
+
+    linear_vel_max: 0.5
+    linear_acc_max: 1.5
+
+    angular_vel_max: 3.14
+    angular_acc_max: 6.28
+
+    pub_hz_: 50.0
+    use_odom_tf: true
