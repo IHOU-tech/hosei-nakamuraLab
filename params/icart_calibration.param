@@ -1,42 +1,53 @@
-VERSION 4
-VOLT 24
-CONTROL_CYCLE 0.015
-TORQUE_FINENESS 0.000001
+# YP-Spur parameter file for i-Cart-mini
+# Calibration version
+# Tire pressure: 200 kPa
 
-MOTOR_PHASE 3
-COUNT_REV 400
-ENCODER_TYPE 2
-CYCLE 0.001
-MOTOR_R 0.800
-TORQUE_MAX 0.0825
-TORQUE_LIMIT 0.66
-MOTOR_VC 729
-MOTOR_TC 0.0131
+VERSION 4                  # パラメータファイル形式のバージョン
 
-GEAR 75
-TREAD 0.395
-RADIUS[0] -0.0830
-RADIUS[1] 0.0830
+VOLT 24                    # モータ・ドライバ系の電源電圧 [V]
 
-MASS 16.5
-MOMENT_INERTIA 1.352
-TIRE_M_INERTIA 0.00260
-MOTOR_M_INERTIA 0.000000148
+CONTROL_CYCLE 0.015        # 速度制御ループの周期 [s]
+TORQUE_FINENESS 0.000001   # トルク指令の分解能
 
-L_C1 0.01
-L_K1 800
-L_K2 300
-L_K3 200
-L_DIST 0.6
+MOTOR_PHASE 3              # BLDCモータの相数
+COUNT_REV 400              # エンコーダの1回転あたりカウント数
+ENCODER_TYPE 2             # エンコーダ方式の設定
+CYCLE 0.001                # モータドライバとの制御・通信周期 [s]
 
-MAX_VEL 0.9
-MAX_W 3.14
-MAX_ACC_V 1.8
-MAX_ACC_W 6.28
-MAX_CENTRI_ACC 1.96
+MOTOR_R 0.800              # モータ端子間抵抗 [ohm]
+MOTOR_VC 729               # モータの速度定数に関するパラメータ
+MOTOR_TC 0.0131            # モータのトルク定数 [N·m/A]
 
-GAIN_KP 60
-GAIN_KI 50
-INTEGRAL_MAX 0.05
-TORQUE_NEWTON 0
-TORQUE_VISCOS 0
+GEAR 75                    # モータから車輪までの減速比
+
+TREAD 0.395                # 左右駆動輪間の距離（トレッド）[m]
+
+RADIUS[0] -0.0830          # 車輪0の有効半径 [m]（符号は回転方向設定を含む）
+RADIUS[1] 0.0830           # 車輪1の有効半径 [m]（符号は回転方向設定を含む）
+
+MASS 16.5                  # ロボット全体の質量 [kg]
+MOMENT_INERTIA 1.352       # ロボット本体の鉛直軸まわり慣性モーメント [kg·m^2]
+TIRE_M_INERTIA 0.00260     # 車輪の慣性モーメント [kg·m^2]
+MOTOR_M_INERTIA 0.000000148 # モータロータの慣性モーメント [kg·m^2]
+
+TORQUE_MAX 0.0825          # モータの基準最大トルク [N·m]
+TORQUE_LIMIT 0.66          # トルク制限値
+
+L_C1 0.01                  # 走行軌道追従制御に使用するパラメータ
+L_K1 800                   # 軌道追従制御ゲイン K1
+L_K2 300                   # 軌道追従制御ゲイン K2
+L_K3 200                   # 軌道追従制御ゲイン K3
+L_DIST 0.6                 # 軌道追従・先読み距離に関するパラメータ [m]
+
+MAX_VEL 0.9                # 最大並進速度 [m/s]
+MAX_W 3.14                 # 最大角速度 [rad/s]
+MAX_ACC_V 1.8              # 最大並進加速度 [m/s^2]
+MAX_ACC_W 6.28             # 最大角加速度 [rad/s^2]
+MAX_CENTRI_ACC 1.96        # 最大許容向心加速度 [m/s^2]
+
+GAIN_KP 60                 # モータ速度制御の比例ゲイン
+GAIN_KI 50                 # モータ速度制御の積分ゲイン
+INTEGRAL_MAX 0.05          # 積分項の最大値
+
+TORQUE_NEWTON 0            # 速度に依存しないトルク補償項
+TORQUE_VISCOS 0            # 粘性抵抗に対するトルク補償項
