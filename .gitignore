@@ -1,0 +1,22 @@
+# ROS2
+build/
+install/
+log/
+
+# ROS bag data
+rosbag/
+rosbag2_*/
+
+# C/C++ build files
+*.o
+*.out
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+
+# Temporary files
+*~
