@@ -38,8 +38,6 @@
     │   └── line_10m.c
     ├── tread/
     │   └── spin_10turns.c
-    ├── wheel_check/
-    │   └── wheel_individual_test.c
     ├── square/
     │   └── square_2m.c
     └── figure8/
@@ -77,12 +75,6 @@ RADIUSのキャリブレーション用。
 
 TREADのキャリブレーション用。  
 原地旋回を10回転以上行い，旋回後の姿勢誤差からTREADを調整する。
-
-### `wheel_check/`
-
-`wheel_individual_test.c`
-
-`w_r` と `w_l` を個別に指定し，YP-Spur上の左右車輪と実機の左右車輪が正しく対応していることを確認する。
 
 ### `square/`
 
