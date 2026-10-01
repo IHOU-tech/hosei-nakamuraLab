@@ -41,17 +41,6 @@
     └── figure8/
         └── figure8_1m.c
 ```
-
-## `params/`
-
-YP-Spurで使用するi-Cart-miniのパラメータを保存する。
-
-- `icart_original.param`：初期パラメータ
-- `icart_calibration.param`：キャリブレーション作業用
-- `icart_final.param`：キャリブレーション後の最終パラメータ
-
-各パラメータの意味および調整方法は，パラメータファイル内のコメントに記載する。
-
 ### TREAD（トレッド）の校正
 
 TREAD の校正は専用のテストプログラムを使用せず，
@@ -65,23 +54,24 @@ YP-Spur のコマンドを用いて実機で行う。
 5. 初期の基準方向に対する実機の角度誤差 Δθ [rad] を測定する
 6. 次式で TREAD を更新する
 
-$$
+```math
 \mathrm{TREAD}_{\mathrm{new}}
 =
 \frac{2\pi n}{2\pi n + \Delta\theta}
 \mathrm{TREAD}_{\mathrm{old}}
-$$
+```
 
-本実験では \(n = 10\) とするため，
+7. Δθが十分小さくなるまで繰り返す
 
-$$
-\mathrm{TREAD}_{\mathrm{new}}
-=
-\frac{20\pi}{20\pi + \Delta\theta}
-\mathrm{TREAD}_{\mathrm{old}}
-$$
+## `params/`
 
-7. \(\Delta\theta\) が十分小さくなるまで繰り返す
+YP-Spurで使用するi-Cart-miniのパラメータを保存する。
+
+- `icart_original.param`：初期パラメータ
+- `icart_calibration.param`：キャリブレーション作業用
+- `icart_final.param`：キャリブレーション後の最終パラメータ
+
+各パラメータの意味および調整方法は，パラメータファイル内のコメントに記載する。
 
 ## `tests/`
 
