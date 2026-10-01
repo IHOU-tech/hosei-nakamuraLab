@@ -14,12 +14,15 @@
 ```text
 .
 ├── analysis/
+│   ├── data/
+│   │   └── square_2m_01.csv
 │   ├── figures/
-│   ├── odom_xy.csv
-│   └── plot_odom.py
+│   ├── plot_trajectory.py
+│   └── record_odom.py
 │
 ├── calibration/
-├── docs/
+│   ├── tread_calibration.md
+│   └── wheel_mapping.md
 │
 ├── params/
 │   ├── icart_original.param
@@ -28,14 +31,14 @@
 │
 ├── ros2/
 │   ├── icart_ypspur_ros2_bridge.yaml
+│   ├── path/
+│   │   └── odom_to_path.py
 │   └── teleop/
 │       └── ps3_teleop.py
 │
 └── tests/
     ├── radius/
     │   └── line_10m.c
-    ├── tread/
-    │   └── spin_10turns.c
     ├── square/
     │   └── square_2m.c
     └── figure8/
@@ -63,101 +66,30 @@ YP-Spur のコマンドを用いて実機で行う。
 
 7. Δθが十分小さくなるまで繰り返す
 
-## `params/`
-
-YP-Spurで使用するi-Cart-miniのパラメータを保存する。
-
-- `icart_original.param`：初期パラメータ
-- `icart_calibration.param`：キャリブレーション作業用
-- `icart_final.param`：キャリブレーション後の最終パラメータ
-
-各パラメータの意味および調整方法は，パラメータファイル内のコメントに記載する。
-
-## `tests/`
-
-### `radius/`
-
-`line_10m.c`
-
-RADIUSのキャリブレーション用。  
-10 m直進を複数回行い，実測距離の平均が指令距離に一致するようにRADIUSを調整する。
-
-目安：
-
-```text
-10 m × 約5回
-```
-
-### `square/`
-
-`square_2m.c`
-
-2 m × 2 mの正方形軌跡を走行するテスト。
-
-RADIUSおよびTREAD調整後の直進・90°旋回精度を確認する。
-
-### `figure8/`
-
-`figure8_1m.c`
-
-1辺1 mの直線移動を組み合わせた8字型軌跡を走行する。
-
-左右旋回を含む複合走行により，走行誤差や旋回誤差を確認する。
-
-## `ros2/`
-
-i-Cart-miniで使用するROS 2関連の設定ファイルを保存する。
-
-### ypspur_ros2_bridge
-
-ROS 2とYP-Spur間の通信には以下を使用する。
-
-- Repository: `dlab-ut/ypspur_ros2_bridge`
-- GitHub: https://github.com/dlab-ut/ypspur_ros2_bridge
-
-設定ファイル：
-
-```text
-ros2/icart_ypspur_ros2_bridge.yaml
-```
-
-主なTopic：
-
-```text
-/cmd_vel
-/odom
-/joy
-```
-
-### PS3 Teleop
-
-```text
-ros2/teleop/ps3_teleop.py
-```
-
-PS3コントローラからi-Cart-miniを操作する。
-
-主な操作：
-
-- `R1`：デッドマン
-- `R2`：前進
-- `L2`：後退
-- 左スティック左右：旋回
-- `□ / ○`：左 / 右 90°旋回
-- `△ / ×`：前 / 後 1 m移動
-
 ## `analysis/`
 
-オドメトリデータの解析および走行軌跡の描画に使用する。
+オドメトリデータの記録，解析および走行軌跡の描画に使用する。
 
 ## `calibration/`
 
-RADIUS，TREADなどのキャリブレーション結果を記録する。
+RADIUS，TREAD，左右車輪の対応など，実機キャリブレーションに関する手順と結果を保存する。
 
 ## `docs/`
 
 ハードウェア構成，セットアップ方法，実験手順などのドキュメントを保存する。
 
-## Git管理対象外
+## `params/`
 
-ROS bagおよびコンパイル後の実行ファイルは `.gitignore` に登録し，GitHubには保存しない。
+YP-Spurで使用するi-Cart-miniのパラメータファイルを保存する。
+
+## `ros2/`
+
+ROS 2 Bridge，PS3コントローラ操作，Odometry Path表示などのROS 2関連ファイルを保存する。
+
+## `rosbag/`
+
+走行実験時に記録したROS 2 bagデータを保存する。
+
+## `tests/`
+
+RADIUS校正，正方形走行，8字走行などの実機走行試験用プログラムを保存する。
