@@ -65,9 +65,23 @@ YP-Spur のコマンドを用いて実機で行う。
 5. 初期の基準方向に対する実機の角度誤差 Δθ [rad] を測定する
 6. 次式で TREAD を更新する
 
-TREAD_new = (2πn / (2πn + Δθ)) × TREAD_old
+$$
+\mathrm{TREAD}_{\mathrm{new}}
+=
+\frac{2\pi n}{2\pi n + \Delta\theta}
+\mathrm{TREAD}_{\mathrm{old}}
+$$
 
-7. Δθ が十分小さくなるまで繰り返す
+本実験では \(n = 10\) とするため，
+
+$$
+\mathrm{TREAD}_{\mathrm{new}}
+=
+\frac{20\pi}{20\pi + \Delta\theta}
+\mathrm{TREAD}_{\mathrm{old}}
+$$
+
+7. \(\Delta\theta\) が十分小さくなるまで繰り返す
 
 ## `tests/`
 
