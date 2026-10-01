@@ -24,4 +24,4 @@ __pycache__/
 # Calibration test executables
 tests/radius/line_10m
 tests/tread/spin_10turns
-tests/wheel_check/wheel_individual_test
+tests/wheel_check/wheel_individual_test.spurip_history

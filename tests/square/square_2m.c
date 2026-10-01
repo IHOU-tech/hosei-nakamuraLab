@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     Spur_set_accel(0.5);
 
     // 旋回速度・角加速度
-    Spur_set_angvel(M_PI / 2.0);
-    Spur_set_angaccel(M_PI / 2.0);
+    Spur_set_angvel(1.0);
+    Spur_set_angaccel(1.0);
 
     // 初期位置 (0, 0, 0)
     Spur_set_pos_GL(0.0, 0.0, 0.0);
